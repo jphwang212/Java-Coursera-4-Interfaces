@@ -89,13 +89,6 @@ public class MarkovWordOne implements IMarkovModel {
 			idx = currIdx;
 			idx++;
 		}
-//		for (int i = 0; i < myText.length; i++) {
-//			int idx = indexOf(myText, key, i);
-//			if (idx == -1 || (idx == myText.length - 1)) {
-//				break;
-//			}
-//			follows.add(myText[idx + 1]);
-//		}
 		return follows;
     }
 
