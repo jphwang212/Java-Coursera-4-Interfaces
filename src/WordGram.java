@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class WordGram {
     private String[] myWords;
@@ -40,7 +39,7 @@ public class WordGram {
             return false;
         }
         for (int i = 0; i < other.length(); i++) {
-            if (other.myWords[i].equals(this.myWords[i])) {
+            if (!other.myWords[i].equals(this.myWords[i])) {
                 return false;
             }
         }

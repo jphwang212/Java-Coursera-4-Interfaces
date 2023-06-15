@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MarkovWord implements  IMarkovModel {
@@ -20,8 +21,12 @@ public class MarkovWord implements  IMarkovModel {
     }
 
     public int indexOf(String[] words, WordGram target, int start) {
+        String[] w = new String[myOrder];
+        for (int i = 0; i < myOrder; i++) {
+            w[i] = target.wordAt(start + i);
+        }
         for(int i = start; i < words.length; i++) {
-            if(words[i].equals(target)){
+            if(target.equals(w)){
                 return i;
             }
         }
@@ -56,12 +61,12 @@ public class MarkovWord implements  IMarkovModel {
         WordGram wg = new WordGram(keys, 0, myOrder);
 
         for (int k = 0; k < numWords - myOrder; k++) {
-            System.out.println(sb);
             ArrayList<String> follows = getFollows(wg);
+//            System.out.println(follows);
             if (follows.size() < 1) {
 //                wg.shiftAdd(" ");
-//                continue;
-                break;
+                continue;
+//                break;
             }
             index = myRandom.nextInt(follows.size());
             String next = follows.get(index);
