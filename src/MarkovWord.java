@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MarkovWord implements  IMarkovModel{
+public class MarkovWord implements  IMarkovModel {
     private String[] myText;
     private Random myRandom;
     private int myOrder;
@@ -44,30 +44,35 @@ public class MarkovWord implements  IMarkovModel{
     }
 
     public String getRandomText(int numWords) {
-        WordGram wg = new WordGram(myText, 0, numWords);
         StringBuilder sb = new StringBuilder();
-        StringBuilder key = new StringBuilder();
-        int index = 0;
+        int index = myRandom.nextInt(myText.length - myOrder);
+        String[] keys = new String[myOrder];
         for (int i = 0; i < myOrder; i++) {
-            index = myRandom.nextInt(myText.length - myOrder);
-            String word = myText[index];
-            key.append(word);
-            key.append(" ");
+            keys[i] = myText[index];
+            sb.append(myText[index]);
+            sb.append(" ");
+            index++;
         }
+        WordGram wg = new WordGram(keys, 0, myOrder);
+
         for (int k = 0; k < numWords - myOrder; k++) {
+            System.out.println(sb);
             ArrayList<String> follows = getFollows(wg);
-            if (follows.size() == 0) {
+            if (follows.size() < 1) {
+//                wg.shiftAdd(" ");
+//                continue;
                 break;
             }
             index = myRandom.nextInt(follows.size());
             String next = follows.get(index);
-            key.append(next);
-            key.append(" ");
-            sb.append(key.toString().trim());
-            wg.shiftAdd(key.toString().trim());
-            key.delete(0, myOrder + 1);
+            wg = wg.shiftAdd(next);
+            sb.append(next);
+            sb.append(" ");
         }
-
         return sb.toString().trim();
+    }
+
+    public String toString(){
+        return "Markov Word Model.";
     }
 }

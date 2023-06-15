@@ -69,11 +69,20 @@ public class MarkovRunner {
         runModel(mw, st, 120, 832);
     }
 
+    public void testMarkovWord() {
+        FileResource fr = new FileResource();
+        String st = fr.asString();
+        st = st.replace('\n', ' ');
+        MarkovWord mw = new MarkovWord(3);
+        runModel(mw, st, 120, 643);
+    }
+
     public static void main(String[] args) {
         MarkovRunner mr = new MarkovRunner();
 //        mr.testGetRandomText();
-        mr.runMarkovTwo();
+//        mr.runMarkovTwo();
 //        mr.runMarkov();
+        mr.testMarkovWord();
     }
 
 }
