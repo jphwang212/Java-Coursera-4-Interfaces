@@ -23,10 +23,12 @@ public class MarkovWord implements  IMarkovModel {
     public int indexOf(String[] words, WordGram target, int start) {
         String[] w = new String[myOrder];
         for (int i = 0; i < myOrder; i++) {
-            w[i] = target.wordAt(start + i);
+            w[i] = myText[start + i];
+            System.out.println(w[i]);
         }
+        WordGram wg = new WordGram(w, 0, myOrder);
         for(int i = start; i < words.length; i++) {
-            if(target.equals(w)){
+            if (target.equals(wg)) {
                 return i;
             }
         }
@@ -38,6 +40,7 @@ public class MarkovWord implements  IMarkovModel {
         int idx = 0;
         while (idx < myText.length - 1){
             int currIdx = indexOf(myText, kGram, idx);
+//            System.out.println(currIdx);
             if ((currIdx == -1) || (currIdx == (myText.length - 1))) {
                 break;
             }

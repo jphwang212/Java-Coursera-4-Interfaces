@@ -38,8 +38,9 @@ public class WordGram {
         if (other.length() != this.length()) {
             return false;
         }
-        for (int i = 0; i < other.length(); i++) {
-            if (!other.myWords[i].equals(this.myWords[i])) {
+        for (int i = 0; i < myWords.length; i++) {
+//            String[] myWords2 = other.myWords;
+            if (!myWords[i].equals(other.wordAt(i))) {
                 return false;
             }
         }
@@ -47,14 +48,14 @@ public class WordGram {
 
     }
 
-    public WordGram shiftAdd(String word) {	
+    public WordGram shiftAdd(String word) {
         WordGram out = new WordGram(myWords, 0, myWords.length);
         // shift all words one towards 0 and add word at the end. 
         // you lose the first word
         // TODO: Complete this method
-        String[] shifted = new String[out.myWords.length];
-        shifted[shifted.length - 1] = word;
-        for (int i = 1; i < shifted.length; i++) {
+        String[] shifted = new String[out.length()];
+        shifted[out.length() - 1] = word;
+        for (int i = 1; i < out.length(); i++) {
             shifted[i - 1] = out.wordAt(i);
         }
         out.myWords = shifted;

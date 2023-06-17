@@ -21,7 +21,7 @@ public class MarkovRunner {
     } 
 
     public void runModel(IMarkovModel markov, String text, int size, int seed){ 
-        markov.setTraining(text); 
+        markov.setTraining(text);
         markov.setRandom(seed);
         System.out.println("running with " + markov); 
         for(int k=0; k < 3; k++){ 
