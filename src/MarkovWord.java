@@ -21,14 +21,12 @@ public class MarkovWord implements  IMarkovModel {
     }
 
     public int indexOf(String[] words, WordGram target, int start) {
-        String[] w = new String[myOrder];
-        for (int i = 0; i < myOrder; i++) {
-            w[i] = myText[start + i];
-            System.out.println(w[i]);
-        }
-        WordGram wg = new WordGram(w, 0, myOrder);
         for(int i = start; i < words.length; i++) {
-            if (target.equals(wg)) {
+            if (i >= words.length - myOrder) {
+                break;
+            }
+            WordGram wg = new WordGram(myText, i, myOrder);
+            if (wg.equals(target)) {
                 return i;
             }
         }
@@ -38,15 +36,14 @@ public class MarkovWord implements  IMarkovModel {
     public ArrayList<String> getFollows(WordGram kGram) {
         ArrayList<String> follows = new ArrayList<String>();
         int idx = 0;
-        while (idx < myText.length - 1){
+        while (idx < myText.length){
             int currIdx = indexOf(myText, kGram, idx);
-//            System.out.println(currIdx);
             if ((currIdx == -1) || (currIdx == (myText.length - 1))) {
                 break;
             }
-            follows.add(myText[currIdx + 1]);
-            idx = currIdx;
-            idx++;
+            String next = myText[currIdx + myOrder];
+            follows.add(next);
+            idx = currIdx + myOrder;
         }
         return follows;
     }
@@ -54,22 +51,14 @@ public class MarkovWord implements  IMarkovModel {
     public String getRandomText(int numWords) {
         StringBuilder sb = new StringBuilder();
         int index = myRandom.nextInt(myText.length - myOrder);
-        String[] keys = new String[myOrder];
-        for (int i = 0; i < myOrder; i++) {
-            keys[i] = myText[index];
-            sb.append(myText[index]);
-            sb.append(" ");
-            index++;
-        }
-        WordGram wg = new WordGram(keys, 0, myOrder);
+        WordGram wg = new WordGram(myText, index, myOrder);
+        sb.append(wg);
+        sb.append(" ");
 
         for (int k = 0; k < numWords - myOrder; k++) {
             ArrayList<String> follows = getFollows(wg);
-//            System.out.println(follows);
-            if (follows.size() < 1) {
-//                wg.shiftAdd(" ");
-                continue;
-//                break;
+            if (follows.size() == 0) {
+                break;
             }
             index = myRandom.nextInt(follows.size());
             String next = follows.get(index);

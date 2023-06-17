@@ -25,8 +25,8 @@ public class MarkovRunner {
         markov.setRandom(seed);
         System.out.println("running with " + markov); 
         for(int k=0; k < 3; k++){ 
-            String st = markov.getRandomText(size); 
-            printOut(st); 
+            String st = markov.getRandomText(size);
+            printOut(st);
         } 
     } 
 
