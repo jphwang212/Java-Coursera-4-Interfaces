@@ -15,8 +15,8 @@ public class MarkovRunnerWithInterface {
 		String st = fr.asString();
 		st = st.replace('\n', ' ');
 		EfficientMarkovModel eMM = new EfficientMarkovModel(5);
-		runModel(eMM, st, 1000, 615);
-//		eMM.printHashMapInfo();
+		runModel(eMM, st, 1000, 531);
+		eMM.printHashMapInfo();
 	}
     public void runModel(IMarkovModel markov, String text, int size, int seed) {
         markov.setTraining(text);

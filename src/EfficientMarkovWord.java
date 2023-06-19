@@ -35,9 +35,9 @@ public class EfficientMarkovWord implements IMarkovModel {
 
     public ArrayList<String> getFollows(WordGram kGram) {
         ArrayList<String> follows = new ArrayList<String>();
-//        int hashed = kGram.hashCode();
-        if (textFollowing.containsKey(kGram.hashCode())) {
-            follows = textFollowing.get(kGram.hashCode());
+        int hashed = kGram.hashCode();
+        if (textFollowing.containsKey(hashed)) {
+            follows = textFollowing.get(hashed);
         }
         return follows;
     }
@@ -45,7 +45,7 @@ public class EfficientMarkovWord implements IMarkovModel {
     public String getRandomText(int numWords) {
         buildMap();
         StringBuilder sb = new StringBuilder();
-        int index = myRandom.nextInt(myText.length - myOrder);
+        int index = myRandom.nextInt(myText.length - myOrder - 1);
         WordGram wg = new WordGram(myText, index, myOrder);
         sb.append(wg);
         sb.append(" ");
@@ -78,13 +78,18 @@ public class EfficientMarkovWord implements IMarkovModel {
                     textFollowing.put(hashed, following);
                     break;
                 }
-                int currIdx = i;
-                while (currIdx < myText.length - myOrder && currIdx != -1) {
-                    String next = myText[currIdx + myOrder];
-                    following.add(next);
-                    currIdx = indexOf(myText, kGram, currIdx + 1);
-                }
+                following.add(myText[i + myOrder]);
                 textFollowing.put(hashed, following);
+            } else {
+                if (i == myText.length - myOrder) {
+                    break;
+                }
+                following = textFollowing.get(hashed);
+                String next = myText[i + myOrder];
+                if (!following.contains(next)) {
+                    following.add(next);
+                    textFollowing.replace(hashed, following);
+                }
             }
         }
     }
@@ -97,7 +102,12 @@ public class EfficientMarkovWord implements IMarkovModel {
         System.out.println("There are " + textFollowing.size() + " keys.");
         int largestSize = 0;
         ArrayList<WordGram> largest = new ArrayList<WordGram>();
+        int count = 15;
         for (Integer hash : textFollowing.keySet()){
+            if (count > 0) {
+                System.out.println(wgMap.get(hash) + ": " + textFollowing.get(hash));
+                count--;
+            }
             int hashSize = textFollowing.get(hash).size();
             WordGram wg = wgMap.get(hash);
             if (hashSize > largestSize) {

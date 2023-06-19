@@ -12,6 +12,13 @@ import java.io.File;
 import java.util.Date;
 
 public class MarkovRunner {
+    public void runMarkovZero() {
+        MarkovZero mz = new MarkovZero();
+        FileResource fr = new FileResource();
+        String st = fr.asString();
+        st = st.replace('\n', ' ');
+        runModel(mz, st, 100, 1024);
+    }
     public void runModel(IMarkovModel markov, String text, int size){ 
         markov.setTraining(text); 
         System.out.println("running with " + markov); 
@@ -74,17 +81,21 @@ public class MarkovRunner {
         FileResource fr = new FileResource();
         String st = fr.asString();
         st = st.replace('\n', ' ');
-        MarkovWord mw = new MarkovWord(3);
-        runModel(mw, st, 120, 643);
+        MarkovWord mw = new MarkovWord(5);
+        runModel(mw, st, 120, 844);
     }
 
     public void testHashMap() {
-        String testSt = "this is a test yes this is really a test yes a test this is wow";
-        EfficientMarkovWord emw = new EfficientMarkovWord(2);
-        emw.setRandom(42);
+        FileResource fr = new FileResource();
+        String testSt = fr.asString();
+
+//        String testSt = "this is a test yes this is really a test yes a test this is wow";
+        testSt = testSt.replace('\n', ' ');
+        EfficientMarkovWord emw = new EfficientMarkovWord(5);
+        emw.setRandom(531);
         emw.setTraining(testSt);
         emw.buildMap();
-//        emw.printHashMapInfo();
+        emw.printHashMapInfo();
 //        runModel(emw, testSt, 50, 42);
     }
 
@@ -95,23 +106,38 @@ public class MarkovRunner {
         MarkovWord mw = new MarkovWord(2);
         EfficientMarkovWord emw = new EfficientMarkovWord(2);
         long startTime = System.nanoTime();
-//        runModel(mw, trainingText, 100, 42);
-//        long elapsed = System.nanoTime() - startTime;
-//        System.out.println("MW: " + elapsed);
-//        startTime = System.nanoTime();
-        runModel(emw, trainingText, 100, 42);
+        runModel(mw, trainingText, 100, 42);
         long elapsed = System.nanoTime() - startTime;
+        System.out.println("MW: " + elapsed);
+        startTime = System.nanoTime();
+        runModel(emw, trainingText, 100, 42);
+        elapsed = System.nanoTime() - startTime;
         System.out.println("Efficient MW: " + elapsed);
     }
 
     public static void main(String[] args) {
         MarkovRunner mr = new MarkovRunner();
+//        mr.runMarkovZero();
 //        mr.testGetRandomText();
 //        mr.runMarkovTwo();
 //        mr.runMarkov();
 //        mr.testMarkovWord();
-//        mr.testHashMap();
-        mr.compareMethods();
+        mr.testHashMap();
+//        mr.compareMethods();
     }
 
 }
+/**
+ * agreement violates the law of the state applicable to this agreement,
+ * ministers, and there was order below heaven. King Wu[80] said,
+ *
+ * Each
+ * eeuefmespwhsfoyu, s giowhersa eell; bma s.7shni:.at.ttdr.w aknf
+ * 10453
+ * 3715
+ *  y O wirs bloay Ger. fo. tifthy The, A My; st- ie d, s. bloulate,
+ *  man in a green, for that haste, for a foot in her from Tybalt!
+ *  e uncle Capulet's orchard. Enter an officer, and light- more
+ *  33972, 45252
+ *  18 1549
+ */
