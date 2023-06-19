@@ -9,6 +9,7 @@
 import edu.duke.*;
 
 import java.io.File;
+import java.util.Date;
 
 public class MarkovRunner {
     public void runModel(IMarkovModel markov, String text, int size){ 
@@ -77,12 +78,40 @@ public class MarkovRunner {
         runModel(mw, st, 120, 643);
     }
 
+    public void testHashMap() {
+        String testSt = "this is a test yes this is really a test yes a test this is wow";
+        EfficientMarkovWord emw = new EfficientMarkovWord(2);
+        emw.setRandom(42);
+        emw.setTraining(testSt);
+        emw.buildMap();
+//        emw.printHashMapInfo();
+//        runModel(emw, testSt, 50, 42);
+    }
+
+    public void compareMethods() {
+        FileResource fr = new FileResource();
+        String trainingText = fr.asString();
+        trainingText = trainingText.replace('\n', ' ');
+        MarkovWord mw = new MarkovWord(2);
+        EfficientMarkovWord emw = new EfficientMarkovWord(2);
+        long startTime = System.nanoTime();
+//        runModel(mw, trainingText, 100, 42);
+//        long elapsed = System.nanoTime() - startTime;
+//        System.out.println("MW: " + elapsed);
+//        startTime = System.nanoTime();
+        runModel(emw, trainingText, 100, 42);
+        long elapsed = System.nanoTime() - startTime;
+        System.out.println("Efficient MW: " + elapsed);
+    }
+
     public static void main(String[] args) {
         MarkovRunner mr = new MarkovRunner();
 //        mr.testGetRandomText();
 //        mr.runMarkovTwo();
 //        mr.runMarkov();
-        mr.testMarkovWord();
+//        mr.testMarkovWord();
+//        mr.testHashMap();
+        mr.compareMethods();
     }
 
 }

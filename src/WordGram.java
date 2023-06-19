@@ -6,6 +6,7 @@ public class WordGram {
 
     public WordGram(String[] source, int start, int size) {
         myWords = new String[size];
+        myHash = hashCode();
         System.arraycopy(source, start, myWords, 0, size);
     }
 
@@ -60,6 +61,11 @@ public class WordGram {
         }
         out.myWords = shifted;
         return out;
+    }
+
+    public int hashCode() {
+        String words = this.toString();
+        return words.hashCode();
     }
 
 }
